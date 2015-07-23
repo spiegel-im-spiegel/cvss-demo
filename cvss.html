@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<title>Demo for CVSS</title>
+<script type="text/javascript" src="cvss.js"></script>
+<script type="text/javascript">
+var getRadioValue = function(radioItem) {
+    if ( typeof (radioItem.length) == "undefined" ) {
+        return 0;
+    }
+    else {
+        var len = radioItem.length;
+        for (var i = 0; i < len; i++ ) {
+            if ( radioItem[i].checked ) {
+                return eval(radioItem[i].value);
+            }
+        }
+        return eval(radioItem[len-1].value);
+    }
+};
+var getBaseScore = function(f) {
+    var base = new CVSS.BaseMetrics(
+            getRadioValue(document.fmain.baseAV),
+            getRadioValue(document.fmain.baseAC),
+            getRadioValue(document.fmain.baseAu),
+            getRadioValue(document.fmain.baseC),
+            getRadioValue(document.fmain.baseI),
+            getRadioValue(document.fmain.baseA),
+            getRadioValue(document.fmain.baseB)
+        );
+    document.fmain.baseScore.value = base.getScore();
+    document.fmain.temporalScore.value = "";
+    document.fmain.environmentalScore.value = "";
+    base = null;
+};
+var getTemporalScore = function() {
+    var base = new CVSS.BaseMetrics(
+            getRadioValue(document.fmain.baseAV),
+            getRadioValue(document.fmain.baseAC),
+            getRadioValue(document.fmain.baseAu),
+            getRadioValue(document.fmain.baseC),
+            getRadioValue(document.fmain.baseI),
+            getRadioValue(document.fmain.baseA),
+            getRadioValue(document.fmain.baseB)
+        );
+    document.fmain.baseScore.value = base.getScore();
+    var temp = new CVSS.TemporalMetrics(
+            getRadioValue(document.fmain.temporalE),
+            getRadioValue(document.fmain.temporalRL),
+            getRadioValue(document.fmain.temporalRC),
+            base
+        );
+    document.fmain.temporalScore.value = temp.getScore();
+    document.fmain.environmentalScore.value = "";
+    temp = null;
+    base = null;
+};
+var getEnvironmentalScore = function() {
+    var base = new CVSS.BaseMetrics(
+            getRadioValue(document.fmain.baseAV),
+            getRadioValue(document.fmain.baseAC),
+            getRadioValue(document.fmain.baseAu),
+            getRadioValue(document.fmain.baseC),
+            getRadioValue(document.fmain.baseI),
+            getRadioValue(document.fmain.baseA),
+            getRadioValue(document.fmain.baseB)
+        );
+    document.fmain.baseScore.value = base.getScore();
+    var temp = new CVSS.TemporalMetrics(
+            getRadioValue(document.fmain.temporalE),
+            getRadioValue(document.fmain.temporalRL),
+            getRadioValue(document.fmain.temporalRC),
+            base
+        );
+    document.fmain.temporalScore.value = temp.getScore();
+    var env = new CVSS.EnvironmentalMetrics(
+            getRadioValue(document.fmain.environmentalCD),
+            getRadioValue(document.fmain.environmentalTD),
+            temp
+        );
+    document.fmain.environmentalScore.value = env.getScore();
+    env = null;
+    temp = null;
+    base = null;
+};
+</script>
+</head>
+
+<body>
+<h1>Demo for CVSS</h1>
+<blockquote>
+Logic in <a href="./cvss.js">cvss.js</a><br />
+Refer to "<a href="http://www.first.org/cvss/cvss-guide.html">Complete CVSS Guide</a>".
+<div id="debug">
+</div>
+</blockquote>
+<form name="fmain" ACTION="" method="post">
+
+<h2>Base Metrics</h2>
+<table>
+<tr><th style="text-align:right">Access Vector:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseAV" value="0" />local
+    <input type="radio" name="baseAV" value="1"checked="checked" />remote
+</td></tr>
+<tr><th style="text-align:right">Access Complexity:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseAC" value="0" />high
+    <input type="radio" name="baseAC" value="1" checked="checked" />low
+</td></tr>
+<tr><th style="text-align:right">Authentication:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseAu" value="0" />required
+    <input type="radio" name="baseAu" value="1" checked="checked" />not required
+</td></tr>
+<tr><th style="text-align:right">Confidentiality Impact:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseC" value="0" />none
+    <input type="radio" name="baseC" value="1" />partial
+    <input type="radio" name="baseC" value="2" checked="checked" />complete
+</td></tr>
+<tr><th style="text-align:right">Integrity Impact:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseI" value="0" />none
+    <input type="radio" name="baseI" value="1" />partial
+    <input type="radio" name="baseI" value="2" checked="checked" />complete
+</td></tr>
+<tr><th style="text-align:right">Availability Impact:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseA" value="0" />none
+    <input type="radio" name="baseA" value="1" />partial
+    <input type="radio" name="baseA" value="2" checked="checked" />complete
+</td></tr>
+<tr><th style="text-align:right">Impact Bias:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseB" value="0" checked="checked" />normal
+    <input type="radio" name="baseB" value="1" />confidentiality
+    <input type="radio" name="baseB" value="2" />integrity
+    <input type="radio" name="baseB" value="3" />availability
+</td></tr>
+<tr><th style="text-align:right">
+    <input type="button" value="Score" onclick="javascript:getBaseScore(this.form);" />
+</th><td style="text-align:left">
+    <input type="text" name="baseScore" value="" readonly="readonly" />
+</td></tr>
+</table>
+
+<h2>Temporal Metrics</h2>
+<table>
+<tr><th style="text-align:right">Exploitability:</th>
+<td style="text-align:left">
+    <input type="radio" name="temporalE" value="0" />unproven
+    <input type="radio" name="temporalE" value="1" />proof of concept
+    <input type="radio" name="temporalE" value="2" />functional
+    <input type="radio" name="temporalE" value="3"checked="checked" />high
+</td></tr>
+<tr><th style="text-align:right">Remediation Level:</th>
+<td style="text-align:left">
+    <input type="radio" name="temporalRL" value="0" />official fix
+    <input type="radio" name="temporalRL" value="1" />temporary fix
+    <input type="radio" name="temporalRL" value="2" />workaround
+    <input type="radio" name="temporalRL" value="3"checked="checked" />unavailable
+</td></tr>
+<tr><th style="text-align:right">Report Confidence:</th>
+<td style="text-align:left">
+    <input type="radio" name="temporalRC" value="0" />unconfirmed
+    <input type="radio" name="temporalRC" value="1" />uncorroborated
+    <input type="radio" name="temporalRC" value="2"checked="checked" />confirmed
+</td></tr>
+<tr><th style="text-align:right">
+    <input type="button" value="Score" onclick="javascript:getTemporalScore();" />
+</th><td style="text-align:left">
+    <input type="text" name="temporalScore" value="" readonly="readonly" />
+</td></tr>
+</table>
+
+<h2>Environmental Metrics</h2>
+<table>
+<tr><th style="text-align:right">Collateral Damage Potential:</th>
+<td style="text-align:left">
+    <input type="radio" name="environmentalCD" value="0" />none
+    <input type="radio" name="environmentalCD" value="1" />low
+    <input type="radio" name="environmentalCD" value="2" />medium
+    <input type="radio" name="environmentalCD" value="3"checked="checked" />high
+</td></tr>
+<tr><th style="text-align:right">Target Distribution:</th>
+<td style="text-align:left">
+    <input type="radio" name="environmentalTD" value="0" />none
+    <input type="radio" name="environmentalTD" value="1" />low
+    <input type="radio" name="environmentalTD" value="2" />medium
+    <input type="radio" name="environmentalTD" value="3"checked="checked" />high
+</td></tr>
+<tr><th style="text-align:right">
+    <input type="button" value="Score" onclick="javascript:getEnvironmentalScore();" />
+</th><td style="text-align:left">
+    <input type="text" name="environmentalScore" value="" readonly="readonly" />
+</td></tr>
+</table>
+
+
+
+</form>
+<hr />
+<div style="text-align:right;">
+Revised by Yasuhiro (Spiegel) ARAKAWA on 2007/02/28
+</div>
+</body>
+<html>

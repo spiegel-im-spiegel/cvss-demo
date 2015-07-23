@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<title>Demo for CVSS</title>
+<script type="text/javascript" src="cvss2.js"></script>
+<script type="text/javascript">
+var getRadioValue = function(radioItem) {
+    if ( typeof (radioItem.length) == "undefined" ) {
+        return 0;
+    }
+    else {
+        var len = radioItem.length;
+        for (var i = 0; i < len; i++ ) {
+            if ( radioItem[i].checked ) {
+                return eval(radioItem[i].value);
+            }
+        }
+        return eval(radioItem[len-1].value);
+    }
+};
+var getBaseScore = function(f) {
+    var base = new CVSS2.BaseMetrics(
+            getRadioValue(document.fmain.baseAV),
+            getRadioValue(document.fmain.baseAC),
+            getRadioValue(document.fmain.baseAu),
+            getRadioValue(document.fmain.baseC),
+            getRadioValue(document.fmain.baseI),
+            getRadioValue(document.fmain.baseA)
+        );
+    document.fmain.baseScore.value = base.getScore();
+    document.getElementById("baseVector").innerHTML = "(" + base.getVector() + ")";
+    document.fmain.temporalScore.value = "";
+    document.getElementById("temporalVector").innerHTML = "";
+    document.fmain.environmentalScore.value = "";
+    document.getElementById("environmentalVector").innerHTML = "";
+    base = null;
+};
+var getTemporalScore = function() {
+    var base = new CVSS2.BaseMetrics(
+            getRadioValue(document.fmain.baseAV),
+            getRadioValue(document.fmain.baseAC),
+            getRadioValue(document.fmain.baseAu),
+            getRadioValue(document.fmain.baseC),
+            getRadioValue(document.fmain.baseI),
+            getRadioValue(document.fmain.baseA)
+        );
+    document.fmain.baseScore.value = base.getScore();
+    var temp = new CVSS2.TemporalMetrics(
+            getRadioValue(document.fmain.temporalE),
+            getRadioValue(document.fmain.temporalRL),
+            getRadioValue(document.fmain.temporalRC),
+            base
+        );
+    document.fmain.baseScore.value = base.getScore();
+    document.getElementById("baseVector").innerHTML = "(" + base.getVector() + ")";
+    document.fmain.temporalScore.value = temp.getScore();
+    document.getElementById("temporalVector").innerHTML = "(" + temp.getVector() + ")";
+    document.fmain.environmentalScore.value = "";
+    document.getElementById("environmentalVector").innerHTML = "";
+    temp = null;
+    base = null;
+};
+var getEnvironmentalScore = function() {
+    var base = new CVSS2.BaseMetrics(
+            getRadioValue(document.fmain.baseAV),
+            getRadioValue(document.fmain.baseAC),
+            getRadioValue(document.fmain.baseAu),
+            getRadioValue(document.fmain.baseC),
+            getRadioValue(document.fmain.baseI),
+            getRadioValue(document.fmain.baseA)
+        );
+    document.fmain.baseScore.value = base.getScore();
+    var temp = new CVSS2.TemporalMetrics(
+            getRadioValue(document.fmain.temporalE),
+            getRadioValue(document.fmain.temporalRL),
+            getRadioValue(document.fmain.temporalRC),
+            base
+        );
+    document.fmain.temporalScore.value = temp.getScore();
+    var env = new CVSS2.EnvironmentalMetrics(
+            getRadioValue(document.fmain.environmentalCD),
+            getRadioValue(document.fmain.environmentalTD),
+            getRadioValue(document.fmain.environmentalCR),
+            getRadioValue(document.fmain.environmentalIR),
+            getRadioValue(document.fmain.environmentalAR),
+            temp
+        );
+    document.fmain.baseScore.value = base.getScore();
+    document.getElementById("baseVector").innerHTML = "(" + base.getVector() + ")";
+    document.fmain.temporalScore.value = temp.getScore();
+    document.getElementById("temporalVector").innerHTML = "(" + temp.getVector() + ")";
+    document.fmain.environmentalScore.value = env.getScore();
+    document.getElementById("environmentalVector").innerHTML = "(" + env.getVector() + ")";
+    env = null;
+    temp = null;
+    base = null;
+};
+</script>
+</head>
+
+<body>
+<h1>CVSS （共通脆弱性評価システム）のデモ</h1>
+<div><a href="cvss2.html">English</a> (<a href="cvss.html">CVSS v1</a>) / <a href="cvss2j.html">Japanese</a></div>
+<blockquote>
+Logic in <a href="./cvss2.js">cvss2.js</a><br />
+Refer to "<a href="http://www.first.org/cvss/cvss-guide.html">A Complete Guide to the Common Vulnerability Scoring System Version 2.0</a>" and "<a href="http://www.ipa.go.jp/security/vuln/SeverityCVSS2.html">共通脆弱性評価システムCVSS v2概説</a>".
+<div id="debug">
+<!-- debug area -->
+</div>
+</blockquote>
+<form name="fmain" ACTION="" method="post">
+
+<h2>基本評価基準</h2>
+<table>
+<tr><th style="text-align:right">攻撃元区分（AV）:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseAV" value="0" />ローカル（L）
+    <input type="radio" name="baseAV" value="1" />隣接ネットワーク（A）
+    <input type="radio" name="baseAV" value="2"checked="checked" />ネットワーク（N）
+</td></tr>
+<tr><th style="text-align:right">攻撃条件の複雑さ（AC）:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseAC" value="0" />高（H）
+    <input type="radio" name="baseAC" value="1" />中（M）
+    <input type="radio" name="baseAC" value="2" checked="checked" />低（L）
+</td></tr>
+<tr><th style="text-align:right">攻撃前の認証要否（Au）:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseAu" value="0" />複数認証（M）
+    <input type="radio" name="baseAu" value="1" />単一認証（S）
+    <input type="radio" name="baseAu" value="2" checked="checked" />不要（N）
+</td></tr>
+<tr><th style="text-align:right">情報漏えいの可能性（機密性への影響, C）:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseC" value="0" />なし（N）
+    <input type="radio" name="baseC" value="1" />部分的（P）
+    <input type="radio" name="baseC" value="2" checked="checked" />全面的（C）
+</td></tr>
+<tr><th style="text-align:right">情報改ざんの可能性（完全性への影響, I）:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseI" value="0" />なし（N）
+    <input type="radio" name="baseI" value="1" />部分的（P）
+    <input type="radio" name="baseI" value="2" checked="checked" />全面的（C）
+</td></tr>
+<tr><th style="text-align:right">業務停止の可能性（可用性への影響, A）:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseA" value="0" />なし（N）
+    <input type="radio" name="baseA" value="1" />部分的（P）
+    <input type="radio" name="baseA" value="2" checked="checked" />全面的（C）
+</td></tr>
+<tr><th style="text-align:right">
+    <input type="button" value="評価" onclick="javascript:getBaseScore(this.form);" />
+</th><td style="text-align:left">
+    <input type="text" name="baseScore" value="" readonly="readonly" />
+    <span id="baseVector"><!-- Vector --></span>
+</td></tr>
+</table>
+
+<h2>現状評価基準</h2>
+<table>
+<tr><th style="text-align:right">攻撃される可能性（E）:</th>
+<td style="text-align:left">
+    <input type="radio" name="temporalE" value="0" />未実証（U）
+    <input type="radio" name="temporalE" value="1" />実証可能（POC）
+    <input type="radio" name="temporalE" value="2" />攻撃可能（F）
+    <input type="radio" name="temporalE" value="3" />容易に攻撃可能（H）
+    <input type="radio" name="temporalE" value="4" checked="checked" />未評価（ND）
+</td></tr>
+<tr><th style="text-align:right">利用可能な対策のレベル（RL）:</th>
+<td style="text-align:left">
+    <input type="radio" name="temporalRL" value="0" />正式（OF）
+    <input type="radio" name="temporalRL" value="1" />暫定（TF）
+    <input type="radio" name="temporalRL" value="2" />非公式（W）
+    <input type="radio" name="temporalRL" value="3" />なし（U）
+    <input type="radio" name="temporalRL" value="4" checked="checked" />未評価（ND）
+</td></tr>
+<tr><th style="text-align:right">脆弱性情報の信頼性（RC）:</th>
+<td style="text-align:left">
+    <input type="radio" name="temporalRC" value="0" />未確認（UC）
+    <input type="radio" name="temporalRC" value="1" />確証済（UR）
+    <input type="radio" name="temporalRC" value="2" />確認済（C）
+    <input type="radio" name="temporalRC" value="3" checked="checked" />未評価（ND）
+</td></tr>
+<tr><th style="text-align:right">
+    <input type="button" value="評価" onclick="javascript:getTemporalScore();" />
+</th><td style="text-align:left">
+    <input type="text" name="temporalScore" value="" readonly="readonly" />
+    <span id="temporalVector"><!-- Vector --></span>
+</td></tr>
+</table>
+
+<h2>環境評価基準</h2>
+<table>
+<tr><th style="text-align:right">二次的被害の可能性（CDP）:</th>
+<td style="text-align:left">
+    <input type="radio" name="environmentalCD" value="0" />なし（N）
+    <input type="radio" name="environmentalCD" value="1" />軽微（L）
+    <input type="radio" name="environmentalCD" value="2" />中程度（LM）
+    <input type="radio" name="environmentalCD" value="3" />重大（MH）
+    <input type="radio" name="environmentalCD" value="4" />壊滅的（H）
+    <input type="radio" name="environmentalCD" value="5" checked="checked" />未評価（ND）
+</td></tr>
+<tr><th style="text-align:right">影響を受ける対象システムの範囲（TD）:</th>
+<td style="text-align:left">
+    <input type="radio" name="environmentalTD" value="0" />なし（N）
+    <input type="radio" name="environmentalTD" value="1" />小規模（L）
+    <input type="radio" name="environmentalTD" value="2" />中規模（M）
+    <input type="radio" name="environmentalTD" value="3" />大規模（H）
+    <input type="radio" name="environmentalTD" value="4" checked="checked" />未評価（ND）
+</td></tr>
+<tr><th style="text-align:right">機密性の要求度（CR）:</th>
+<td style="text-align:left">
+    <input type="radio" name="environmentalCR" value="0" />低（L）
+    <input type="radio" name="environmentalCR" value="1" />中（M）
+    <input type="radio" name="environmentalCR" value="2" />高（H）
+    <input type="radio" name="environmentalCR" value="3" checked="checked" />未評価（ND）
+</td></tr>
+<tr><th style="text-align:right">完全性の要求度（IR）:</th>
+<td style="text-align:left">
+    <input type="radio" name="environmentalIR" value="0" />低（L）
+    <input type="radio" name="environmentalIR" value="1" />中（M）
+    <input type="radio" name="environmentalIR" value="2" />高（H）
+    <input type="radio" name="environmentalIR" value="3" checked="checked" />未評価（ND）
+</td></tr>
+<tr><th style="text-align:right">可用性の要求度（AR）:</th>
+<td style="text-align:left">
+    <input type="radio" name="environmentalAR" value="0" />低（L）
+    <input type="radio" name="environmentalAR" value="1" />中（M）
+    <input type="radio" name="environmentalAR" value="2" />高（H）
+    <input type="radio" name="environmentalAR" value="3" checked="checked" />未評価（ND）
+</td></tr>
+<tr><th style="text-align:right">
+    <input type="button" value="評価" onclick="javascript:getEnvironmentalScore();" />
+</th><td style="text-align:left">
+    <input type="text" name="environmentalScore" value="" readonly="readonly" />
+    <span id="environmentalVector"><!-- Vector --></span>
+</td></tr>
+</table>
+
+</form>
+<hr />
+<div style="text-align:right;">
+Revised by Yasuhiro (Spiegel) ARAKAWA on 2007/06/22
+</div>
+</body>
+<html>
