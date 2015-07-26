@@ -41,7 +41,7 @@
 		var c = 'C:' + getRadioValue(form.baseC, 'N');
 		var i = 'I:' + getRadioValue(form.baseI, 'N');
 		var a = 'A:' + getRadioValue(form.baseA, 'N');
-		return av + '/' + ac + '/' + pr + '/' + ui + '/' + s + '/' + c + '/' + i + '/' + a;
+		return "CVSS:3.0/" + av + '/' + ac + '/' + pr + '/' + ui + '/' + s + '/' + c + '/' + i + '/' + a;
 	}
 
 	/**
