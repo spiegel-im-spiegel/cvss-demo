@@ -1,0 +1,3 @@
+[submodule "src/js/cvss3"]
+	path = src/js/cvss3
+	url = git@github.com:spiegel-im-spiegel/cvss3.git

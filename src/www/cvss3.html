@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset='utf-8'>
+<link rel='icon' type='image/x-icon' href='/favicon.ico'>
+<title>Demo for CVSS v3</title>
+<script src="js/cvss3c.js"></script>
+</head>
+<body>
+<h1>Demo for CVSS v3</h1>
+<div>English / <a href="cvss3j.html">Japanese</a> / <a href="cvss2.html">CVSS v2</a></div>
+<blockquote>
+Logic in <a href="https://github.com/spiegel-im-spiegel/cvss3">github.com/spiegel-im-spiegel/cvss3</a><br />
+Refer to <q><a href="http://www.first.org/cvss/specification-document">CVSS v3.0 Specification Document</a></q>.
+</blockquote>
+
+<form name="fmain" ACTION="" method="post">
+
+<h2>Base Metrics</h2>
+<table>
+<tr><th colspan="2" style="text-align:center">Exploitability Metrics</th></tr>
+<tr><th style="text-align:right">Access Vector:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseAV" value="P" checked="checked">Physical
+    <input type="radio" name="baseAV" value="L">Local
+    <input type="radio" name="baseAV" value="A">Adjacent
+    <input type="radio" name="baseAV" value="N">Network
+</td></tr>
+<tr><th style="text-align:right">Attack Complexity:</th>
+<td style="text-align:left">
+	<input type="radio" name="baseAC" value="H" checked="checked">High
+    <input type="radio" name="baseAC" value="L">Low
+</td></tr>
+<tr><th style="text-align:right">Privileges Required:</th>
+<td style="text-align:left">
+	<input type="radio" name="basePR" value="H" checked="checked">High
+	<input type="radio" name="basePR" value="L">Low
+    <input type="radio" name="basePR" value="N">None
+</td></tr>
+<tr><th style="text-align:right">User Interaction:</th>
+<td style="text-align:left">
+	<input type="radio" name="baseUI" value="R" checked="checked">Required
+    <input type="radio" name="baseUI" value="N">None
+</td></tr>
+
+<tr><th colspan="2" style="text-align:center">Authorization Scope</th></tr>
+<tr><th style="text-align:right">Scope:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseS" value="U" checked="checked">Unchanged
+    <input type="radio" name="baseS" value="C">Changed
+</td></tr>
+
+<tr><th colspan="2" style="text-align:center">Impact Metrics</th></tr>
+<tr><th style="text-align:right">Confidentiality Impact:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseC" value="N" checked="checked">None
+    <input type="radio" name="baseC" value="L">Low
+    <input type="radio" name="baseC" value="H">High
+</td></tr>
+<tr><th style="text-align:right">Integrity Impact:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseI" value="N" checked="checked">None
+    <input type="radio" name="baseI" value="L">Low
+    <input type="radio" name="baseI" value="H">High
+</td></tr>
+<tr><th style="text-align:right">Availability Impact:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseA" value="N" checked="checked">None
+    <input type="radio" name="baseA" value="L">Low
+    <input type="radio" name="baseA" value="H">High
+</td></tr>
+</table>
+<p>
+<input type="text" name="baseVecor" id="baseVecor" value="" readonly>
+<input type="button" value="Score" onclick="javascript:CVSS3.getBaseScore(this.form);">
+</p><p>
+Base Score is [<span id="baseScore">unknown</span>].
+</p>
+
+</form>
+<hr />
+<div style="text-align:right;">
+These codes are licensed under CC0.
+<br><a href="http://creativecommons.org/publicdomain/zero/1.0/deed.ja"><img src='http://i.creativecommons.org/p/zero/1.0/88x31.png' alt='CC0' height='30'></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset='utf-8'>
+<link rel='icon' type='image/x-icon' href='/favicon.ico'>
+<title>Demo for CVSS v3</title>
+<script src="js/cvss3c.js"></script>
+</head>
+<body>
+<h1>Demo for CVSS v3</h1>
+<div><a href="cvss3.html">English</a> / Japanese / <a href="cvss2.html">CVSS v2</a></div>
+<blockquote>
+Logic in <a href="https://github.com/spiegel-im-spiegel/cvss3">github.com/spiegel-im-spiegel/cvss3</a><br />
+Refer to <q><a href="http://www.first.org/cvss/specification-document">CVSS v3.0 Specification Document</a></q>, <q><a href="http://www.ipa.go.jp/security/vuln/CVSSv3.html">共通脆弱性評価システムCVSS v3概説：IPA 独立行政法人 情報処理推進機構</a></q>.
+</blockquote>
+
+<form name="fmain" ACTION="" method="post">
+
+<h2>基本評価基準（Base Metrics）</h2>
+<table>
+<tr><th colspan="2" style="text-align:center">攻撃容易性評価（Exploitability Metrics）</th></tr>
+<tr><th style="text-align:right">攻撃元区分（Access Vector）:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseAV" value="P" checked="checked">物理（P）
+    <input type="radio" name="baseAV" value="L">ローカル（L）
+    <input type="radio" name="baseAV" value="A">隣接（A）
+    <input type="radio" name="baseAV" value="N">ネットワーク（N）
+</td></tr>
+<tr><th style="text-align:right">攻撃条件の複雑さ（Attack Complexity）:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseAC" value="H" checked="checked">高（H）
+    <input type="radio" name="baseAC" value="L">低（L）
+</td></tr>
+<tr><th style="text-align:right">必要な特権レベル（Privileges Required）:</th>
+<td style="text-align:left">
+    <input type="radio" name="basePR" value="H" checked="checked">高（H）
+    <input type="radio" name="basePR" value="L">低（L）
+    <input type="radio" name="basePR" value="N">不要（N）
+</td></tr>
+<tr><th style="text-align:right">ユーザ関与レベル（User Interaction）:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseUI" value="R" checked="checked">要（R）
+    <input type="radio" name="baseUI" value="N">不要（N）
+</td></tr>
+
+<tr><th colspan="2" style="text-align:center">管理権限の範囲（Authorization Scope）</th></tr>
+<tr><th style="text-align:right">スコープ（Scope）:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseS" value="U" checked="checked">変更なし（U）
+    <input type="radio" name="baseS" value="C">変更あり（C）
+</td></tr>
+
+<tr><th colspan="2" style="text-align:center">影響度評価（Impact Metrics）</th></tr>
+<tr><th style="text-align:right">機密性への影響（Confidentiality Impact）:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseC" value="N" checked="checked">なし（N）
+    <input type="radio" name="baseC" value="L">低（L）
+    <input type="radio" name="baseC" value="H">高（H）
+</td></tr>
+<tr><th style="text-align:right">完全性への影響（Integrity Impact）:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseI" value="N" checked="checked">なし（N）
+    <input type="radio" name="baseI" value="L">低（L）
+    <input type="radio" name="baseI" value="H">高（H）
+</td></tr>
+<tr><th style="text-align:right">可用性への影響（Availability Impact）:</th>
+<td style="text-align:left">
+    <input type="radio" name="baseA" value="N" checked="checked">なし（N）
+    <input type="radio" name="baseA" value="L">低（L）
+    <input type="radio" name="baseA" value="H">高（H）
+</td></tr>
+</table>
+<p>
+<input type="text" name="baseVecor" id="baseVecor" value="" readonly>
+<input type="button" value="Score" onclick="javascript:CVSS3.getBaseScore(this.form);">
+</p><p>
+Base Score is [<span id="baseScore">unknown</span>].
+</p>
+
+</form>
+
+<h2>関連ページ</h2>
+<ul>
+<li><a href="http://www.baldanders.info/spiegel/log2/000290.shtml">CVSS に関するメモ — Baldanders.info</a></li>
+<li><a href="http://www.baldanders.info/spiegel/log2/000334.shtml">CVSS に関するメモ 2 — Baldanders.info</a></li>
+<li><a href=""></a></li>
+</ul>
+
+<hr />
+<div style="text-align:right;">
+These codes are licensed under CC0.
+<br><a href="http://creativecommons.org/publicdomain/zero/1.0/deed.ja"><img src='http://i.creativecommons.org/p/zero/1.0/88x31.png' alt='CC0' height='30'></a>
+</div>
+</body>
+</html>

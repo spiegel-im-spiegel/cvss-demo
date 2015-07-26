@@ -1,8 +1,24 @@
-# Demonstration for CVSS (Common Vulnerability Scoring System) Version 3
+# memo for cvss-demo
 
-## Build
 
-Use [gulp] and [webpack].
+## ディレクトリ構成（初期）
+
+```shell
+C:>tree . /f
+C:.
+│  package.json
+│
+├─gulp
+└─src
+    ├─js
+    └─www
+```
+
+## 準備
+
+最初に `npm init` で `package.json` を作成する。中身は適当で OK。
+
+以下のコマンドを実行
 
 ```shell
 C:>npm install -g gulp
@@ -61,49 +77,51 @@ gulp-webpack@1.5.0 node_modules\gulp-webpack
 ├── gulp-util@3.0.6 (array-differ@1.0.0, array-uniq@1.0.2, lodash._reinterpolate@3.0.0, lodash._reevaluate@3.0.0, lodash._reescape@3.0.0, object-assign@3.0.0, beeper@1.1.0, replace-ext@0.0.1, minimist@1.1.2, chalk@1.1.0, lodash.template@3.6.2, through2@2.0.0, multipipe@0.1.2, dateformat@1.0.11)
 └── webpack@1.10.5 (interpret@0.6.5, tapable@0.1.9, clone@1.0.2, async@1.4.0, esprima@1.2.5, enhanced-resolve@0.9.0, mkdirp@0.5.1, optimist@0.6.1, supports-color@3.1.0, uglify-js@2.4.24, webpack-core@0.6.6, node-libs-browser@0.5.2, watchpack@0.2.8)
 
-C:>gulp build
-[18:23:06] Using gulpfile C:cvss-demo\gulpfile.js
-[18:23:06] Starting 'webpack'...
-[18:23:06] Finished 'webpack' after 259 ms
-[18:23:06] Starting 'copy'...
-[18:23:06] Finished 'copy' after 3.78 ms
-[18:23:06] Starting 'build'...
-[18:23:06] Finished 'build' after 3.21 μs
-[18:23:06] Version: webpack 1.10.5
-    Asset     Size  Chunks             Chunk Names
-cvss3c.js  28.5 kB       0  [emitted]  main
+C:>pushd src\js
+
+C:>git submodule add git@github.com:spiegel-im-spiegel/cvss3.git cvss3
+Cloning into 'src/js/cvss3'...
+remote: Counting objects: 55, done.
+remote: Compressing objects: 100% (41/41), done.Receiving objects:  52% (29/55)
+remote: Total 55 (delta 27), reused 37 (delta 13), pack-reused 0
+Receiving objects: 100% (55/55), 15.89 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (27/27), done.
+Checking connectivity... done.
 ```
 
-output folder:
+## 実行
 
 ```shell
-C:>tree build /f
-C:CVSS-DEMO\BUILD
-│  cvss3.html
-│  cvss3j.html
-│
-└─js
-        cvss3c.js
+C:>gulp webpack
+[13:14:19] Using gulpfile C:\home\project\cvss-demo\gulpfile.js
+[13:14:19] Starting 'webpack'...
+[13:14:22] Finished 'webpack' after 3.09 s
+[13:14:22] Version: webpack 1.10.5
+    Asset     Size  Chunks             Chunk Names
+bundle.js  26.9 kB       0  [emitted]  main
+
+C:>gulp copy
+[14:17:59] Using gulpfile C:\home\project\cvss-demo\gulpfile.js
+[14:17:59] Starting 'copy'...
+[14:17:59] Finished 'copy' after 6.4 ms
+
+C:>gulp build
+[14:23:50] Using gulpfile C:\home\project\cvss-demo\gulpfile.js
+[14:23:50] Starting 'webpack'...
+[14:23:53] Finished 'webpack' after 3.08 s
+[14:23:53] Starting 'copy'...
+[14:23:53] Finished 'copy' after 2.4 ms
+[14:23:53] Starting 'build'...
+[14:23:53] Finished 'build' after 3.53 μs
+[14:23:54] Version: webpack 1.10.5
+    Asset     Size  Chunks             Chunk Names
+bundle.js  26.9 kB       0  [emitted]  main
 ```
 
-see: [http://www.baldanders.info/spiegel/archive/cvss/cvss3.html](http://www.baldanders.info/spiegel/archive/cvss/cvss3.html)
 
-## License
 
-These codes are licensed under CC0.
 
-[![CC0](http://i.creativecommons.org/p/zero/1.0/88x31.png "CC0")](http://creativecommons.org/publicdomain/zero/1.0/deed.ja)
+## ブックマーク
 
-## Reference
-
-- [Common Vulnerability Scoring System (CVSS-SIG)](http://www.first.org/cvss)
-    - [CVSS v3.0 User Guide](http://www.first.org/cvss/user-guide)
-    - [CVSS v3.0 Specification Document](http://www.first.org/cvss/specification-document)
-    - [CVSS v3.0 Calculator](http://www.first.org/cvss/calculator/3.0)
-- [共通脆弱性評価システムCVSS v3概説：IPA 独立行政法人 情報処理推進機構](http://www.ipa.go.jp/security/vuln/CVSSv3.html)
-- [CVSS に関するメモ — Baldanders.info](http://www.baldanders.info/spiegel/log2/000290.shtml)
-- [CVSS に関するメモ 2 — Baldanders.info](http://www.baldanders.info/spiegel/log2/000334.shtml)
-- [CVSSv3 用の node.js モジュールを作ってみた - Qiita](http://qiita.com/spiegel-im-spiegel/items/d6fe10d3df92b9d8556b)
-
-[gulp]: http://gulpjs.com/ "gulp.js - the streaming build system"
-[webpack]: http://webpack.github.io/ "webpack module bundler"
+- [gulp.jsを使ってフロントエンドのビルドをする【webpack, stylus】 - yutaponのブログ](http://yutapon.hatenablog.com/entry/2014/12/06/123000)
+- [webpackを使い倒す - Thujikun blog](http://thujikun.github.io/blog/2014/12/07/webpack/)
