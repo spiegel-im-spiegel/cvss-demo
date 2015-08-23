@@ -16,66 +16,192 @@ Refer to <q><a href="http://www.first.org/cvss/specification-document">CVSS v3.0
 
 <form name="fmain" ACTION="" method="post">
 
+<section>
 <h2>基本評価基準（Base Metrics）</h2>
 <table>
 <tr><th colspan="2" style="text-align:center">攻撃容易性評価（Exploitability Metrics）</th></tr>
 <tr><th style="text-align:right">攻撃元区分（Access Vector）:</th>
 <td style="text-align:left">
-    <input type="radio" name="baseAV" value="P" checked="checked">物理（P）
-    <input type="radio" name="baseAV" value="L">ローカル（L）
-    <input type="radio" name="baseAV" value="A">隣接（A）
-    <input type="radio" name="baseAV" value="N">ネットワーク（N）
+    <label><input type="radio" name="baseAV" value="P" checked="checked">物理（P）</label>
+    <label><input type="radio" name="baseAV" value="L">ローカル（L）</label>
+    <label><input type="radio" name="baseAV" value="A">隣接（A）</label>
+    <input type="radio" name="baseAV" value="N">ネットワーク（N）</label>
 </td></tr>
 <tr><th style="text-align:right">攻撃条件の複雑さ（Attack Complexity）:</th>
 <td style="text-align:left">
-    <input type="radio" name="baseAC" value="H" checked="checked">高（H）
-    <input type="radio" name="baseAC" value="L">低（L）
+    <label><input type="radio" name="baseAC" value="H" checked="checked">高（H）</label>
+    <label><input type="radio" name="baseAC" value="L">低（L）</label>
 </td></tr>
 <tr><th style="text-align:right">必要な特権レベル（Privileges Required）:</th>
 <td style="text-align:left">
-    <input type="radio" name="basePR" value="H" checked="checked">高（H）
-    <input type="radio" name="basePR" value="L">低（L）
-    <input type="radio" name="basePR" value="N">不要（N）
+    <label><input type="radio" name="basePR" value="H" checked="checked">高（H）</label>
+    <label><input type="radio" name="basePR" value="L">低（L）</label>
+    <label><input type="radio" name="basePR" value="N">不要（N）</label>
 </td></tr>
 <tr><th style="text-align:right">ユーザ関与レベル（User Interaction）:</th>
 <td style="text-align:left">
-    <input type="radio" name="baseUI" value="R" checked="checked">要（R）
-    <input type="radio" name="baseUI" value="N">不要（N）
+    <label><input type="radio" name="baseUI" value="R" checked="checked">要（R）</label>
+    <label><input type="radio" name="baseUI" value="N">不要（N）</label>
 </td></tr>
 
 <tr><th colspan="2" style="text-align:center">管理権限の範囲（Authorization Scope）</th></tr>
 <tr><th style="text-align:right">スコープ（Scope）:</th>
 <td style="text-align:left">
-    <input type="radio" name="baseS" value="U" checked="checked">変更なし（U）
-    <input type="radio" name="baseS" value="C">変更あり（C）
+    <label><input type="radio" name="baseS" value="U" checked="checked">変更なし（U）</label>
+    <label><input type="radio" name="baseS" value="C">変更あり（C）</label>
 </td></tr>
 
 <tr><th colspan="2" style="text-align:center">影響度評価（Impact Metrics）</th></tr>
 <tr><th style="text-align:right">機密性への影響（Confidentiality Impact）:</th>
 <td style="text-align:left">
-    <input type="radio" name="baseC" value="N" checked="checked">なし（N）
-    <input type="radio" name="baseC" value="L">低（L）
-    <input type="radio" name="baseC" value="H">高（H）
+    <label><input type="radio" name="baseC" value="N" checked="checked">なし（N）</label>
+    <label><input type="radio" name="baseC" value="L">低（L）</label>
+    <label><input type="radio" name="baseC" value="H">高（H）</label>
 </td></tr>
 <tr><th style="text-align:right">完全性への影響（Integrity Impact）:</th>
 <td style="text-align:left">
-    <input type="radio" name="baseI" value="N" checked="checked">なし（N）
-    <input type="radio" name="baseI" value="L">低（L）
-    <input type="radio" name="baseI" value="H">高（H）
+    <label><input type="radio" name="baseI" value="N" checked="checked">なし（N）</label>
+    <label><input type="radio" name="baseI" value="L">低（L）</label>
+    <label><input type="radio" name="baseI" value="H">高（H）</label>
 </td></tr>
 <tr><th style="text-align:right">可用性への影響（Availability Impact）:</th>
 <td style="text-align:left">
-    <input type="radio" name="baseA" value="N" checked="checked">なし（N）
-    <input type="radio" name="baseA" value="L">低（L）
-    <input type="radio" name="baseA" value="H">高（H）
+    <label><input type="radio" name="baseA" value="N" checked="checked">なし（N）</label>
+    <label><input type="radio" name="baseA" value="L">低（L）</label>
+    <label><input type="radio" name="baseA" value="H">高（H）</label>
 </td></tr>
 </table>
 <p>
 <input type="text" name="baseVecor" id="baseVecor" value="" readonly>
-<input type="button" value="Score" onclick="javascript:CVSS3.getBaseScore(this.form);">
+<input type="button" value="Base Score" onclick="javascript:CVSS3.getBaseScore(this.form);">
 </p><p>
 Base Score is [<span id="baseScore">unknown</span>].
 </p>
+</section>
+
+<section>
+<h2>現状評価基準（Temporal Metrics）</h2>
+<table>
+<tr><th style="text-align:right">攻撃される可能性（Exploit Code Maturity）:</th>
+<td style="text-align:left">
+    <label><input type="radio" name="tempoE" value="X" checked="checked">未評価（X）</label>
+    <label><input type="radio" name="tempoE" value="U">未実証（U）</label>
+    <label><input type="radio" name="tempoE" value="P">実証可能（P）</label>
+    <label><input type="radio" name="tempoE" value="F">攻撃可能（F）</label>
+    <label><input type="radio" name="tempoE" value="H">容易に攻撃可能（H）</label>
+</td></tr>
+<tr><th style="text-align:right">利用可能な対策のレベル（Remediation Level）:</th>
+<td style="text-align:left">
+    <label><input type="radio" name="tempoRL" value="X" checked="checked">未評価（X）</label>
+    <label><input type="radio" name="tempoRL" value="O">正式（O）</label>
+    <label><input type="radio" name="tempoRL" value="T">暫定（T）</label>
+    <label><input type="radio" name="tempoRL" value="W">非公式（W）</label>
+    <label><input type="radio" name="tempoRL" value="U">なし（U）</label>
+</td></tr>
+<tr><th style="text-align:right">脆弱性情報の信頼性（Report Confidence）:</th>
+<td style="text-align:left">
+    <label><input type="radio" name="tempoRC" value="X" checked="checked">未評価（X）</label>
+    <label><input type="radio" name="tempoRC" value="U">未確認（U）</label>
+    <label><input type="radio" name="tempoRC" value="R">未確証（R）</label>
+    <label><input type="radio" name="tempoRC" value="C">確認済（C）</label>
+</td></tr>
+</table>
+<p>
+<input type="text" name="temporalVecor" id="temporalVecor" value="" readonly>
+<input type="button" value="Temporal Score" onclick="javascript:CVSS3.getTemporalScore(this.form);">
+</p><p>
+Temporal Score is [<span id="temporalScore">unknown</span>].
+</p>
+</section>
+
+<section>
+<h2>Environmental Metrics</h2>
+<table>
+<tr><th colspan="2" style="text-align:center">セキュリティ要求度（Security Requirements）</th></tr>
+<tr><th style="text-align:right">機密性の要求度（Confidentiality Requirement）:</th>
+<td style="text-align:left">
+    <label><input type="radio" name="envCR" value="X" checked="checked">未評価（X）</label>
+    <label><input type="radio" name="envCR" value="L">低（L）</label>
+    <label><input type="radio" name="envCR" value="M">中（M）</label>
+    <label><input type="radio" name="envCR" value="H">高（H）</label>
+</td></tr>
+<tr><th style="text-align:right">完全性の要求度（Integrity Requirement）:</th>
+<td style="text-align:left">
+    <label><input type="radio" name="envIR" value="X" checked="checked">未評価（X）</label>
+    <label><input type="radio" name="envIR" value="L">低（L）</label>
+    <label><input type="radio" name="envIR" value="M">中（M）</label>
+    <label><input type="radio" name="envIR" value="H">高（H）</label>
+</td></tr>
+<tr><th style="text-align:right">可用性の要求度（Availability Requirement）:</th>
+<td style="text-align:left">
+    <label><input type="radio" name="envAR" value="X" checked="checked">未評価（X）</label>
+    <label><input type="radio" name="envAR" value="L">低（L）</label>
+    <label><input type="radio" name="envAR" value="M">中（M）</label>
+    <label><input type="radio" name="envAR" value="H">高（H）</label>
+</td></tr>
+<tr><th colspan="2" style="text-align:center">基本評価の再評価（Modified Base Metrics）</th></tr>
+<tr><th style="text-align:right">緩和策後の攻撃元区分（Modified Access Vector）:</th>
+<td style="text-align:left">
+    <label><input type="radio" name="envMAV" value="X" checked="checked">未評価（X）</label>
+    <label><input type="radio" name="envMAV" value="P">物理（P）</label>
+    <label><input type="radio" name="envMAV" value="L">ローカル（L）</label>
+    <label><input type="radio" name="envMAV" value="A">隣接（A）</label>
+    <label><input type="radio" name="envMAV" value="N">ネットワーク（N）</label>
+</td></tr>
+<tr><th style="text-align:right">緩和策後の攻撃条件の複雑さ（Modified Attack Complexity）:</th>
+<td style="text-align:left">
+    <label><input type="radio" name="envMAC" value="X" checked="checked">未評価（X）</label>
+	<label><input type="radio" name="envMAC" value="H">高（H）</label>
+    <label><input type="radio" name="envMAC" value="L">低（L）</label>
+</td></tr>
+<tr><th style="text-align:right">緩和策後の必要な特権レベル（Modified Privileges Required）:</th>
+<td style="text-align:left">
+    <label><input type="radio" name="envMPR" value="X" checked="checked">未評価（X）</label>
+	<label><input type="radio" name="envMPR" value="H">高（H）</label>
+	<label><input type="radio" name="envMPR" value="L">低（L）</label>
+    <label><input type="radio" name="envMPR" value="N">不要（N）</label>
+</td></tr>
+<tr><th style="text-align:right">緩和策後のユーザ関与レベル（Modified User Interaction）:</th>
+<td style="text-align:left">
+    <label><input type="radio" name="envMUI" value="X" checked="checked">未評価（X）</label>
+	<label><input type="radio" name="envMUI" value="R">要（R）</label>
+    <label><input type="radio" name="envMUI" value="N">要（N）</label>
+</td></tr>
+<tr><th style="text-align:right">緩和策後のスコープ（Modified Scope）:</th>
+<td style="text-align:left">
+    <label><input type="radio" name="envMS" value="X" checked="checked">未評価（X）</label>
+    <label><input type="radio" name="envMS" value="U">変更なし（U）</label>
+    <label><input type="radio" name="envMS" value="C">変更あり（C）</label>
+</td></tr>
+<tr><th style="text-align:right">緩和策後の機密性への影響（Modified Confidentiality Impact）:</th>
+<td style="text-align:left">
+    <label><input type="radio" name="envMC" value="X" checked="checked">未評価（X）</label>
+    <label><input type="radio" name="envMC" value="N">なし（N）</label>
+    <label><input type="radio" name="envMC" value="L">低（L）</label>
+    <label><input type="radio" name="envMC" value="H">高（H）</label>
+</td></tr>
+<tr><th style="text-align:right">緩和策後の完全性への影響（Modified Integrity Impact）:</th>
+<td style="text-align:left">
+    <label><input type="radio" name="envMI" value="X" checked="checked">未評価（X）</label>
+    <label><input type="radio" name="envMI" value="N">なし（N）</label>
+    <label><input type="radio" name="envMI" value="L">低（L）</label>
+    <label><input type="radio" name="envMI" value="H">High</label>
+</td></tr>
+<tr><th style="text-align:right">緩和策後の可用性への影響（Modified Availability Impact）:</th>
+<td style="text-align:left">
+    <label><input type="radio" name="envMA" value="X" checked="checked">未評価（X）</label>
+    <label><input type="radio" name="envMA" value="N">なし（N）</label>
+    <label><input type="radio" name="envMA" value="L">低（L）</label>
+    <label><input type="radio" name="envMA" value="H">高（H）</label>
+</td></tr>
+</table>
+<p>
+<input type="text" name="envVecor" id="envVecor" value="" readonly>
+<input type="button" value="Environmental Score" onclick="javascript:CVSS3.getEnvironmentalScore(this.form);">
+</p><p>
+Environmental Score is [<span id="envScore">unknown</span>].
+</p>
+</section>
 
 </form>
 
@@ -83,7 +209,7 @@ Base Score is [<span id="baseScore">unknown</span>].
 <ul>
 <li><a href="http://www.baldanders.info/spiegel/log2/000290.shtml">CVSS に関するメモ — Baldanders.info</a></li>
 <li><a href="http://www.baldanders.info/spiegel/log2/000334.shtml">CVSS に関するメモ 2 — Baldanders.info</a></li>
-<li><a href=""></a></li>
+<li><a href="http://www.baldanders.info/spiegel/log2/000864.shtml">CVSS に関するメモ 3 — Baldanders.info</a></li>
 </ul>
 
 <hr />
